@@ -4,6 +4,7 @@ package com.wipro.ekartManagemet_1.Services;
 import com.wipro.ekartManagemet_1.Dtos.UserDto;
 import com.wipro.ekartManagemet_1.Entities.UserEntity;
 import com.wipro.ekartManagemet_1.Repository.UserRepository;
+import com.wipro.ekartManagemet_1.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,7 +38,7 @@ public class ServiceImpl implements UserService{
 //delete User ById
     @Override
     public String deleteUser(Long id) {
-        UserEntity userEntity = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("id does not exists"));
+        UserEntity userEntity = UserRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException(" invalid user id or user does not exist"));
         UserRepo.delete(userEntity);
 
         return "deleted";
@@ -58,7 +59,7 @@ public class ServiceImpl implements UserService{
 //get User By Id
     @Override
     public UserDto getUserById(Long id) {
-        UserEntity userEntity = UserRepo.findById(id).orElseThrow(() -> new RuntimeException("user does not exists"));
+        UserEntity userEntity = UserRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("user does not exists"));
         UserDto userDto = entTodto(userEntity);
         return userDto;
     }
